@@ -8,6 +8,7 @@ public class Taller02UnitTesting {
         System.out.println("Intensidad: " + registrarIntensidadMayorSismo(sensor));
         System.out.println("Día en que ocurrió: " + registrarDiaMayorSismo(sensor));
         System.out.println("Hora en que ocurrió: " + registrarHoraMayorSismo(sensor));
+        System.out.println("\nCantidad de sismos mayores a 5.5 grados: " + getCantidadDiasSismosSobre5(sensor));
     }
 
     public double registrarIntensidadMayorSismo(double[][] sensor){
@@ -31,7 +32,7 @@ public class Taller02UnitTesting {
         return mayor;
     }
 
-    public double registrarDiaMayorSismo(double[][] sensor) throws IllegalArgumentException{
+    public int registrarDiaMayorSismo(double[][] sensor) throws IllegalArgumentException{
         propagarExcepcion(sensor);
 
         double mayorSismo = registrarIntensidadMayorSismo(sensor);
@@ -47,7 +48,7 @@ public class Taller02UnitTesting {
         return 0;
     }
 
-    public double registrarHoraMayorSismo(double[][] sensor) throws IllegalArgumentException{
+    public int registrarHoraMayorSismo(double[][] sensor) throws IllegalArgumentException{
         propagarExcepcion(sensor);
 
         double mayorSismo = registrarIntensidadMayorSismo(sensor);
@@ -63,12 +64,31 @@ public class Taller02UnitTesting {
         return 0;
     }
 
-    private void propagarExcepcion(double[][] sensor) throws IllegalArgumentException{
+    public int getCantidadDiasSismosSobre5(double[][] sensor){
+        propagarExcepcion(sensor);
+
+        int cantidadDias = 0;
+
+        for (int i = 0; i < sensor.length; i++){
+            for (int j = 0; j < 24; j++){
+                if(sensor[i][j] >= 5.5){
+                    cantidadDias++;
+                }
+            }
+        }
+
+        return cantidadDias;
+    }
+
+    private void propagarExcepcion(double[][] sensor) throws IllegalArgumentException, ArrayIndexOutOfBoundsException{
         if(sensor == null){
             throw new IllegalArgumentException("el sensor es vacío");
         }
         if(sensor.length == 0 || sensor[0].length == 0){
             throw new IllegalArgumentException("el sensor contiene un tamaño vacío");
+        }
+        if(sensor[0].length > 24){
+            throw new ArrayIndexOutOfBoundsException("el sensor contiene un tamaño fuera de lo necesario.");
         }
     }
 }
