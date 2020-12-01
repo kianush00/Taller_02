@@ -6,15 +6,15 @@ public class Taller02UnitTesting {
         System.out.println("Ingrese cantidad de dias a estudiar");
         Scanner scanner = new Scanner(System.in);
         int entrada=0;
-        boolean intento=false;
-       while(intento) {
+        boolean intento=true;
+       while(intento==true) {
            try {
                entrada = scanner.nextInt();
                if (entrada < 0) {
                    throw new IllegalArgumentException();
                }
                else{
-                   intento=true;
+                   intento=false;
                }
            } catch (IllegalArgumentException iae) {
                System.err.println("Error detectado, argumento invalido, ingrese un numero.");
@@ -43,7 +43,6 @@ public class Taller02UnitTesting {
             int j;
         for(int i=0;i<sensor.length; ++i) {
             int alerta = 0;
-            // double[][] sensor = new double[Ndias][24];
             for ( j = 0; j < 24; ++j) {
 
                 if (sensor[i][j] > 6.0) {
@@ -56,14 +55,28 @@ public class Taller02UnitTesting {
         }
         return 0;
     }
+    boolean salir(){
+        System.out.println("¿Desea salir del sistema? (0:NO 1:SI)");
+        Scanner scanner = new Scanner(System.in);
+        int entrada = scanner.nextInt();
+
+        if(entrada==1){
+         return false;
+        }
+        return true;
+    }
     public int menu(){
         double sensor[][]=setUpsensor();
-        alertaSismica(sensor);
-        //imprimirDatoMayorSismo();
+        boolean salir=true;
+        while(salir) {
+            alertaSismica(sensor);
+            //imprimirDatoMayorSismo();
 
-        //registrarIntensidadmayorSismo
-        //registrarHoraMayorSismo
-
+            //registrarIntensidadmayorSismo
+            //registrarHoraMayorSismo
+        salir=salir();
+        }
+        System.exit(1);
         return 0;
     }
 
